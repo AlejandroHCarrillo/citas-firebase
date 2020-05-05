@@ -1,1 +1,47 @@
 <p>cita works!</p>
+
+<div *ngIf="cita">
+  cita : {{ cita | json }}
+</div>
+
+<form>
+  <div class="form-group">
+    <label for="nombre">Nombre</label>
+    <input type="text" class="form-control" id="nombre" placeholder="nombre del cliente">
+  </div>
+
+  <div class="form-group">
+    <label for="dia">Fecha</label>
+    <select class="form-control" id="day" >
+      <option>Dia</option>
+      <option *ngFor="let item of dias" value="item">{{ item }}</option>
+    </select>
+    <select class="form-control" id="mes">
+      <option>Mes</option>
+      <option *ngFor="let item of meses" value="item">{{ item }}</option>
+    </select>
+    <select class="form-control" id="year">
+      <option>Año</option>
+      <option *ngFor="let item of years" value="item">{{ item }}</option>
+    </select>
+
+
+    <label for="hora">Hora</label>
+    <select class="form-control" id="hora">
+      <option>Hora</option>
+      <option *ngFor="let item of horarios">{{ item }}</option>
+    </select>
+
+  </div>
+
+  <div class="form-group">
+    <label for="Servicios">Asunto:</label>
+    <select multiple class="form-control" id="servicios">
+      <option *ngFor="let item of asuntos">{{ item }}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="descripcion">Descripcion</label>
+    <textarea class="form-control" id="descripcion" rows="3"></textarea>
+  </div>
+</form>

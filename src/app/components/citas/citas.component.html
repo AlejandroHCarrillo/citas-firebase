@@ -1,4 +1,9 @@
 <div class="jumbotron">
+  <div class="row align-items-end">
+    <div class="col col-12">
+      <button class="btn btn-primary" [routerLink]="['/cita', 'new']" >Nueva</button>
+    </div>
+  </div>
 
   <input type="text" (keyup.enter)="agregarCita(citaControl)" #citaControl >
 
@@ -10,15 +15,20 @@
         <th scope="col">Nombre</th>
         <th scope="col">Asunto</th>
         <th scope="col">Estatus</th>
+        <th scope="col"></th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let item of _cs.citas; let i=index">
-        <th scope="row">{{i+1}}</th>
-        <td>{{ item.fecha | date : 'short' }}</td>
-        <td>{{ item.asunto }}</td>
-        <td>{{ item.nombre }}</td>
-        <td>{{ item.estatus }}</td>
+    <tbody *ngIf="allCitas">
+      <tr *ngFor="let item of allCitas; let i=index">
+        <th scope="row">{{i+1}}</th>        
+        <td>{{ item.payload.val().fecha | date : 'short' }}</td>
+        <td>{{ item.payload.val().asunto }}</td>
+        <td>{{ item.payload.val().nombre }}</td>
+        <td>{{ item.payload.val().estatus }}</td>
+        <td>
+          <button class="btn btn-primary" [routerLink]="['/cita', item.key]">Edit</button> &nbsp;
+          <button class="btn btn-danger" (click)="eliminarCita(item);">Delete</button>
+        </td>
       </tr>
     </tbody>
   </table>

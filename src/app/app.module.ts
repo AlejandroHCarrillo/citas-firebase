@@ -7,6 +7,11 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { environment } from '../environments/environment';
+
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { ChatComponent } from './components/chat/chat.component';
+import { ChatService } from '../app/services/chat.service';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,7 +24,6 @@ import { CitasComponent } from './components/citas/citas.component';
 import { NoAccessComponent } from './components/common/no-access/no-access.component';
 import { SignupComponent } from './components/login/signup.component';
 import { AuthService } from './services/auth.service';
-import { environment } from 'src/environments/environment';
 import { CitaComponent } from './components/citas/cita.component';
 import { NavbarComponent } from './components/common/navbar/navbar.component';
 // import { AuthGuard } from './services/guards/auth.guard';
@@ -31,6 +35,7 @@ import { NavbarComponent } from './components/common/navbar/navbar.component';
   declarations: [
     AppComponent,
     HomeComponent,
+    ChatComponent,
     LoginComponent,
     AdminComponent,
     CitasComponent,
@@ -45,12 +50,19 @@ import { NavbarComponent } from './components/common/navbar/navbar.component';
     FormsModule,
     HttpClientModule,
 
-    AngularFireModule.initializeApp (environment.firebase),
+    AngularFireModule.initializeApp(environment.firebase),  // imports firebase/app needed for everything
+    AngularFirestoreModule,                                 // imports firebase/firestore, only needed for database features
+    AngularFireAuthModule,                                  // imports firebase/auth, only needed for auth features,
+    AngularFireStorageModule,                               // imports firebase/storage only needed for storage features
+
+
     AngularFireDatabaseModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule
+    // AngularFireModule.initializeApp (environment.firebase),
+    // AngularFirestoreModule,
+    // AngularFireStorageModule
   ],
   providers: [
+    ChatService,
     HttpClient, 
 
     AuthService,

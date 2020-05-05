@@ -1,45 +1,39 @@
 import { Injectable } from '@angular/core';
 import { Cita } from '../interfaces/cita.interface';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore';
 import { map } from 'rxjs/operators';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CitasService {
-  citasRef: AngularFireList<Cita>;
-  public citas;
+  private itemsCollection: AngularFirestoreCollection<Cita>;
 
-  constructor(private db : AngularFireDatabase) { 
-    this.citasRef  = this.db.list('citas');
+  constructor(public db : AngularFireDatabase) { 
+
   }
 
-  cargarCitas() {
-    console.log('cargando citas');
-    return this.citasRef.valueChanges()
-                 .subscribe( data => {
-                    console.log(data);
+  getCitas() {
+    // console.log('cargando citas de la base de datos');
+    return this.db.list('citas').snapshotChanges();
+  }
 
-                    data.forEach(element => {
-                      console.log("element: ", element);                      
-                    });
-                    this.citas = data;
-                    return (data);
-                 });
+  getCita(id: string) {
+    // console.log('Obtener una cita', id);  
+    return this.db.object('citas/' + id);
   }
 
   addCita(cita: Cita){
-    if(cita.asunto.length === 0){
-      return;
-    }
-
-    this.agregarCita( cita );
+    this.db.list('citas').push(cita);
   }
-
-   agregarCita(cita : Cita ){
-     this.citasRef.push(cita);
-   }
-
+  
+  updateCita(cita: Cita){
+    this.db.object('citas/' + cita.uid).update(cita); 
+  }
+  
+  deleteCita(citaId){
+    this.db.object('citas/' + citaId).remove();
+  }
+  
 }

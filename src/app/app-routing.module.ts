@@ -11,6 +11,7 @@ import { SignupComponent } from './components/login/signup.component';
 
 import { CitasComponent } from './components/citas/citas.component';
 import { CitaComponent } from './components/citas/cita.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 
 const routes: Routes = [
@@ -19,11 +20,12 @@ const routes: Routes = [
     component: AdminComponent, 
     canActivate: [AuthGuard, AdminAuthGuard] 
   },
-  // { path: 'admin', component: LoginComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'chat', component: ChatComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'citas', component: CitasComponent },
-  { path: 'cita', component: CitaComponent },
+  { path: 'cita/:id', component: CitaComponent },
   { path: 'no-access', component: NoAccessComponent },
   // { path: '**', redirectTo: '/home', pathMatch:"full"}
 ];

@@ -9,7 +9,6 @@ import { CitasService } from 'src/app/services/citas.service';
   ]
 })
 export class CitasComponent {
-  // allGames: any;
   allCitas;
 
   constructor(public _cs : CitasService ) {
@@ -34,7 +33,15 @@ export class CitasComponent {
   }
 
   cargarCitas(){
-    this._cs.cargarCitas();
+    this._cs.getCitas().subscribe( data => {
+      console.log(data);
+      this.allCitas = data;
+    });
+  }
+
+  eliminarCita(cita){
+    console.log('Eliminar cita', cita.key);
+    this._cs.deleteCita(cita.key);
   }
 
 }
