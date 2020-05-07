@@ -4,44 +4,67 @@
   cita : {{ cita | json }}
 </div>
 
-<form>
+<form [formGroup]="form" (submit)="onSubmit()">
   <div class="form-group">
     <label for="nombre">Nombre</label>
-    <input type="text" class="form-control" id="nombre" placeholder="nombre del cliente">
+    <input type="text" class="form-control" id="nombre" formControlName="nombre" placeholder="nombre del cliente">
+    <div *ngIf="getNombreCtrl.touched && getNombreCtrl.invalid" class="alert alert-danger" role="alert">El nombre es obligatorio</div>
   </div>
 
-  <div class="form-group">
-    <label for="dia">Fecha</label>
-    <select class="form-control" id="day" >
+  <div class="form-group" style="display: flex;">
+    <label for="dia">Fecha:&nbsp;</label>
+    <input type="text" name="fecha" id="fecha" formControlName="fecha" placeholder="__/__/____" style="width: 100px;">
+    <select class="form-control" id="day" style="width: 100px;">
       <option>Dia</option>
       <option *ngFor="let item of dias" value="item">{{ item }}</option>
     </select>
-    <select class="form-control" id="mes">
+    <select class="form-control" id="mes" style="width: 100px;">
       <option>Mes</option>
       <option *ngFor="let item of meses" value="item">{{ item }}</option>
     </select>
-    <select class="form-control" id="year">
+    <select class="form-control" id="year" style="width: 100px;">
       <option>Año</option>
       <option *ngFor="let item of years" value="item">{{ item }}</option>
     </select>
-
-
-    <label for="hora">Hora</label>
-    <select class="form-control" id="hora">
-      <option>Hora</option>
+    &nbsp;
+    <label for="hora"> Hora: </label>
+    <input type="text" name="hora" id="hora" formControlName="hora" placeholder="09:00" style="width: 50px;">
+    <select class="form-control" id="hora" style="width: 150px;">
+      <option>&nbsp; Hora: &nbsp;</option>
       <option *ngFor="let item of horarios">{{ item }}</option>
     </select>
-
   </div>
+    
+    <div *ngIf="fecha.touched && fecha.invalid" class="alert alert-danger" role="alert">
+      <div *ngIf="fecha.errors.required">La fecha es obligatoria</div>
+      <!-- <div *ngIf="fecha.isInvalid">La fecha no es valida</div> -->
+    </div>
+    <div *ngIf="hora.touched && hora.invalid" class="alert alert-danger" role="alert">
+      <div *ngIf="fecha.errors.required">La hora es obligatoria </div>
+      <!-- <div *ngIf="hora.touched && hora.invalid">La hora no es valida</div> -->
+    </div>
 
-  <div class="form-group">
-    <label for="Servicios">Asunto:</label>
-    <select multiple class="form-control" id="servicios">
+
+  <div class="form-group"  style="display: flex;">
+    <label for="Servicios" style=" padding-right: 10px;">Asunto:</label>
+    <select class="form-control" id="servicios" formControlName="asunto" style="width: 50%;">
       <option *ngFor="let item of asuntos">{{ item }}</option>
     </select>
   </div>
   <div class="form-group">
     <label for="descripcion">Descripcion</label>
-    <textarea class="form-control" id="descripcion" rows="3"></textarea>
+    <textarea class="form-control" id="descripcion" rows="3" formControlName="descripcion"></textarea>
   </div>
+
+  <button class="btn btn-danger" (click)="regresar()">Cancelar</button>
+  <!-- " -->
+  <button type="submit" class="btn btn-primary" [disabled]="form.status == 'INVALID'">
+    Guardar
+  </button>
 </form>
+
+<pre>
+  {{ form.status }}
+  {{ form.errors }}
+  {{ form.controls }}
+</pre>
